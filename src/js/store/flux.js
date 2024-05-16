@@ -36,13 +36,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw new Error(response.status, response.statusText)
 				 }
 				 const data = await response.json();
-			    setStore = ({contacts: data.contacts});
+			    setStore({contacts: data.contacts});
 			},
 			// will need functions to
 			//Post new contacts through the API
 			//Put (updated) contacts through thr API
 			//Delete contacts through the API
-		}
+		   deleteContact: async (contactId) =>{
+			const response = await fetch(`https://playground.4geeks.com/contact/agendas/yvenerd/contacts/${contactId}`,{
+				method: "DELETE",
+			});
+			if(!response.ok){
+				throw new Error(response.status, response.statusText)
+			}
+			
+            getActions().loadAgendaContacts();
+			
+		},
+	}
 	};
 };
 

@@ -1,60 +1,52 @@
-const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		   //Added
-		store: {
-			contacts: [	]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			// changeColor: (index, color) => {
-			// 	//get the store
-			// 	const store = getStore();
-
-			// 	//we have to loop the entire demo array to look for the respective index
-			// 	//and change its color
-			// 	const demo = store.demo.map((elm, i) => {
-			// 		if (i === index) elm.background = color;
-			// 		return elm;
-			// 	});
-
-			// 	//reset the global store
-			// 	setStore({ demo: demo });
-			// }
-                     //Added
-			//Get single agenda
-			loadAgendaContacts: async () => {
-                 const response = await fetch("https://playground.4geeks.com/contact/agendas/yvenerd/contacts");
-				 if (!response.ok){
-					throw new Error(response.status, response.statusText)
-				 }
-				 const data = await response.json();
-			    setStore({contacts: data.contacts});
-			},
-			// will need functions to
-			//Post new contacts through the API
-			//Put (updated) contacts through thr API
-			//Delete contacts through the API
-		   deleteContact: async (contactId) =>{
-			const response = await fetch(`https://playground.4geeks.com/contact/agendas/yvenerd/contacts/${contactId}`,{
-				method: "DELETE",
-			});
-			if(!response.ok){
-				throw new Error(response.status, response.statusText)
-			}
-			
-            getActions().loadAgendaContacts();
-			
-		},
-	}
-	};
-};
+const getState = ({setStore,getStore, getActions}) => {
+    return {
+        store: {
+            contact: {
+                full_name:"",
+                email:"",
+                agenda_slug: "yvener_agenda",
+                address:"",
+                phone:"",
+            },
+            listOfContacts: []
+        },
+        actions: {
+            getContacts: ()=>{
+                fetch("https://playground.4geeks.com/contact/agendas/yvenerd/contacts",{
+                    method: "GET",
+                    headers:{"Content-Type":"application/json"}
+                }).then((response)=> response.json()).then((data)=>setStore({listOfContacts: data})).catch((error)=>console.log(error))
+            },
+            handleChange: (event)=>{
+                const store = getStore();
+                setStore({contact: {...store.contact, [event.target.name]: event.target.value} }) 
+                console.log(store.contact)
+            },
+            handleSubmit: (event)=>{
+                event.preventDefault();
+                const store = getStore();
+                if(store.contact){fetch(`https://playground.4geeks.com/contact/agendas/yvenerd/contacts/${contactId}`,{
+                    method: "POST",
+                    headers:{"Content-Type":"application/json"},
+                    body: JSON.stringify(store.contact)
+                }).then((response)=>response.json()).then((data)=>console.log(data)).catch((error)=>console.log(error))}
+                setStore({
+                    contact: {
+                        full_name:"",
+                        email:"",
+                        agenda_slug: "yvener_agenda",
+                        address:"",
+                        phone:"",
+                            }
+                })
+            },
+            deleteContact: (id)=>{
+                fetch(`https://playground.4geeks.com/contact/agendas/yvenerd/contacts/${contactId}`,{
+                    method: "DELETE",
+                }).then((response)=> response.json()).then((data)=>console.log(data)).catch((error)=>console.log(error))
+            }
+        }
+    }
+}
 
 export default getState;

@@ -51,12 +51,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().createNewContact(newContact)
 				setStore({contacts: revisedStore})
 			},
-			setNewContact:(name,address,email,phone) => {
+			setNewContact:(name,address,phone,email) => {
 				let newContact = {
 					name:name,
 					address:address, 
-					email:email,
-					phone:phone
+					phone:phone,
+					email:email
 				};
 				getActions().saveNewContact(newContact)
 			},

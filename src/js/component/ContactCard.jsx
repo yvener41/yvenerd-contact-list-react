@@ -4,7 +4,7 @@ import React from "react";
 const ContactCard = ({name, address, phone, email}) => {
 
     return (
-        <div className="mb-3 ms-1" style={{ width: "75rem" }}>
+        <div className="mb-3 ms-1 d-inline" style={{ width: "75rem" }}>
             <div className="row d-flex justify-content-center text-center">
                 <div className="col-md-4 mt-4">
                     <img src="https://xsgames.co/randomusers/avatar.php?g=pixel" className="img-fluid rounded-circle" alt="contact avatar" />

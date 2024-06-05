@@ -3,7 +3,7 @@ import ContactCard from "../component/ContactCard.jsx";
 import { Context } from "../store/appContext.js";
 import { Link } from "react-router-dom";
 
-
+                         
 const Contact = () => {
     const { store, actions } = useContext(Context);
 
@@ -12,10 +12,11 @@ const Contact = () => {
             {
                 store.contacts.map(contact => {
                         return (
-                            <div className="container mb-4 w-100 d-flex border border-secondary p-2" key={contact.id}>
+
+                            <div className="container mb-4 w-100 border border-secondary p-2" key={contact.id}>
                                 <ContactCard name={contact.name} address={contact.address} phone={contact.phone} email={contact.email} /> 
                                 <div className="ms-5">
-                                    <div className="d-flex justify-content-center" style={{ width: '18rem' }}>
+                                    <div className=" justify-content-center" style={{ width: '18rem' }}>
                                     <Link to={"/editcontact/" + contact.id}>
                                     <button className="btn btn-light ms-5">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
